@@ -192,7 +192,7 @@ class GraphEditorWindow(wx.Window):
         return [[(x1,y1),0],[(x2,y2),0],[(x3,y3),0],[t1x,t1y],[t2x,t2y]]
 
     def InitBuffer(self):
-        self.buffer = wx.EmptyBitmap(self.w, self.h)
+        self.buffer = wx.Bitmap(self.w, self.h)
         dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
         self.DrawXCoord(dc)
         self.DrawYCoord(dc)

@@ -352,7 +352,11 @@ class LevelEditorUIBase(WxPandaShell):
                 menuItem = self.menuBar.FindItemById(id)
                 hotKey = hotKeyDict.get(desc[1])
                 if hotKey:
-                    menuItem.SetText(desc[0] + "\t%s"%hotKey)
+                    label = desc[0] + "\t%s"%hotKey
+                    if hasattr(menuItem, 'SetItemLabel'):
+                        menuItem.SetItemLabel(label)
+                    else:
+                        menuItem.SetText(label)
 
     def createInterface(self):
         WxPandaShell.createInterface(self)
@@ -639,13 +643,13 @@ class GridSizeUI(wx.Dialog):
         vbox.Add(okButton, 1, wx.ALIGN_CENTER | wx.TOP | wx.BOTTOM, 5)
 
         self.SetSizer(vbox)
-        base.base.le.ui.bindKeyEvents(False)
+        base.le.ui.bindKeyEvents(False)
 
     def onApply(self, evt):
         newSize = self.gridSizeSlider.GetValue()
         newSpacing = self.gridSpacingSlider.GetValue()
         self.parent.updateGrids(newSize, newSpacing)
-        base.base.le.ui.bindKeyEvents(True)
+        base.le.ui.bindKeyEvents(True)
         self.Destroy()
 
 
@@ -686,7 +690,7 @@ class CurveDegreeUI(wx.Dialog):
         degreeList = ['2','3','4']
 
         self.degree = wx.RadioBox(panel, -1, 'Curve Degree', (5, 5), wx.DefaultSize, degreeList, 3, wx.RA_SPECIFY_COLS)
-        self.degree.SetToolTipString("Select the degree of the curve.")
+        self.degree.SetToolTip("Select the degree of the curve.")
         self.degree.SetSelection(1)
 
         okButton = wx.Button(self, -1, 'Apply', size=(70, 20))
